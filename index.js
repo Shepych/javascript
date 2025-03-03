@@ -1,7 +1,5 @@
 'use strict'
 
-let basket = []
-
 const Basket = function() {
     this.products = []
 
