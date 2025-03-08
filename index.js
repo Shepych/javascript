@@ -1,57 +1,41 @@
 'use strict'
 
-const Basket = function() {
-    this.products = []
+class User {
 
-    this.addProduct = (product) => {
-        const findId = this.products.find((el) => el.name === product.name)?.id;
+    #login;
+    #_password;
 
-        if(findId) {
-            this.products.forEach(el => {
-                if(el.id == findId) {
-                    el.count += product.count
-                }
-            })
-        }
-        else this.products.push(product)
+    constructor(login, password) {
+        this.#login = login;
+        this.#password = password;
     }
 
-    this.removeProduct = (product, count) => {
-        const findProduct = this.products.find((el) => el.id == product.id)
-        if(findProduct.count <= count) {
-            console.log('Удалить элемент')
-            this.products = this.products.filter((el) => el.id != product.id)
+    set #password(password) {
+        this.#_password = password.split('').reverse().join('');
+    }
+
+    get #password() {
+        return  this.#_password.split('').reverse().join('');
+    }
+
+    get login() {
+        return this.#login;
+    }
+
+    checkPassword(pass) {
+        return this.#password === pass;
+    }
+
+    changePassword(oldPass, newPass) {
+        if(this.checkPassword(oldPass)) {
+            this.#password = newPass
+            console.log('Пароль изменён')
         } else {
-            console.log('Вычесть ' + count)
-            findProduct.count -= count
+            console.log('Пароль не верный')
         }
     }
 }
 
-Basket.prototype.manyTypesProducts = function() {
-    return this.products.length
-}
-
-let korzina = new Basket();
-
-const bread = {
-    id: 1,
-    name: 'Bread', 
-    count: 2
-}
-
-const milk = {
-    id: 2,
-    name: 'Milk', 
-    count: 3
-}
-
-korzina.addProduct(bread)
-korzina.addProduct(bread)
-korzina.addProduct(milk)
-korzina.addProduct(milk)
-
-korzina.removeProduct(bread, 7)
-korzina.removeProduct(milk, 6)
-
-console.log(korzina)
+const artem = new User('Artem', '12345678');
+artem.changePassword('12345678', 'asdf')
+console.log(artem)
